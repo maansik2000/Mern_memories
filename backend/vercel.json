@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "builds": 
+    {
+      "src": "*.js", // Directory containing your API routes
+      "use": "@vercel/node" // Specifies the builder to use for this source directory
+    },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/" // Default route to serve your index.html for client-side routing
+    }
+  ]
+}
