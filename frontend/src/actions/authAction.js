@@ -6,9 +6,11 @@ import {
   UPDATE_PROFILE,
 } from "../Constants/ActionConstant";
 
+const baseURL = "https://mern-memories-d3xy.vercel.app";
+
 export const signin = (formdata, history) => async (dispatch) => {
   try {
-    const { data } = await Axios.post(`/user/signin`, formdata);
+    const { data } = await Axios.post(`${baseURL}/user/signin`, formdata);
 
     dispatch({ type: AUTH, data });
     history.push("/");
@@ -23,7 +25,7 @@ export const signin = (formdata, history) => async (dispatch) => {
 
 export const signUp = (formdata, history) => async (dispatch) => {
   try {
-    const { data } = await Axios.post(`/user/signup`, formdata);
+    const { data } = await Axios.post(`${baseURL}/user/signup`, formdata);
 
     dispatch({ type: AUTH, data });
 
@@ -40,9 +42,13 @@ export const signUp = (formdata, history) => async (dispatch) => {
 export const updateProfile = (id, post) => async (dispatch) => {
   try {
     const user = JSON.parse(localStorage.getItem("profile")).token;
-    const { data } = await Axios.patch(`/user/updateProfile/${id}`, post, {
-      headers: { Authorization: `Bearer ${user}` },
-    });
+    const { data } = await Axios.patch(
+      `${baseURL}/user/updateProfile/${id}`,
+      post,
+      {
+        headers: { Authorization: `Bearer ${user}` },
+      }
+    );
     console.log(data);
     dispatch({ type: UPDATE_PROFILE, data });
   } catch (error) {
