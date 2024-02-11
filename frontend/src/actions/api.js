@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({ baseURL: "https://mern-memories-d3xy.vercel.app/" });
+const baseURL = "https://mern-memories-d3xy.vercel.app";
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("profile")) {
@@ -12,6 +13,8 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
+export const likePost = (id) => axios.patch(`${baseURL}/posts/${id}/likePost`);
 export const fetchPostsBySearch = (searchQuery) =>
-  axios.get(`/api/posts/search?searchQuery=${searchQuery.search || "none"}`);
+  axios.get(
+    `${baseURL}/api/posts/search?searchQuery=${searchQuery.search || "none"}`
+  );
