@@ -17,17 +17,20 @@ const PORT = process.env.PORT || 5000;
 app.use("/api/posts", postRoute);
 app.use("/user", userRoutes);
 
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.send("Hello to our memories api");
-})
+});
 
 mongoose
-  .connect(process.env.CONNECTION_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  })
+  .connect(
+    "mongodb+srv://mansisarkar:JjIoxfbQvEKbCdWP@cluster0.5qcu97y.mongodb.net/cluster0?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    }
+  )
   .then(() =>
     app.listen(PORT, () => console.log(`server is up and running at ${PORT}`))
   )
