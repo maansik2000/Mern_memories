@@ -20,10 +20,12 @@ import {
 } from "../Constants/ActionConstant";
 import * as api from "./api.js";
 
+const baseURL = "https://mern-memories-d3xy.vercel.app";
+
 export const getPost = (page) => async (dispatch) => {
   dispatch({ type: BLOG_REQUEST });
   try {
-    const { data } = await Axios.get(`/api/posts?page=${page}`);
+    const { data } = await Axios.get(`${baseURL}/api/posts?page=${page}`);
 
     dispatch({ type: FETCH_ALL, payload: data });
   } catch (err) {
@@ -36,7 +38,7 @@ export const getPostBySearch = (searchQuery) => async (dispatch) => {
     const {
       data: { data },
     } = await Axios.get(
-      `/api/posts/search?searchQuery=${searchQuery || "none"}`
+      `${baseURL}/api/posts/search?searchQuery=${searchQuery || "none"}`
     );
     dispatch({ type: SEARCH_POST, payload: data });
     console.log(data);
@@ -50,9 +52,13 @@ export const createPost = (post) => async (dispatch) => {
   try {
     const user = JSON.parse(localStorage.getItem("profile")).token;
     console.log(user);
-    const { data } = await Axios.post(`/api/posts/createPost/`, post, {
-      headers: { Authorization: `Bearer ${user}` },
-    });
+    const { data } = await Axios.post(
+      `${baseURL}/api/posts/createPost/`,
+      post,
+      {
+        headers: { Authorization: `Bearer ${user}` },
+      }
+    );
     dispatch({ type: CREATE, payload: data });
   } catch (err) {
     dispatch({ type: CREATE_FAIL, payload: err.message });
@@ -62,7 +68,7 @@ export const createPost = (post) => async (dispatch) => {
 export const getPostDetails = (BlogId) => async (dispatch) => {
   dispatch({ type: DETAILS_REQUEST, payload: BlogId });
   try {
-    const { data } = await Axios.get(`/api/posts/${BlogId}`);
+    const { data } = await Axios.get(`${baseURL}/api/posts/${BlogId}`);
 
     dispatch({ type: BLOG_DETAILS, payload: data });
   } catch (err) {
@@ -73,7 +79,7 @@ export const getPostDetails = (BlogId) => async (dispatch) => {
 export const updatePostDetails = (id, post) => async (dispatch) => {
   try {
     const user = JSON.parse(localStorage.getItem("profile")).token;
-    const { data } = await Axios.patch(`/api/posts/${id}`, post, {
+    const { data } = await Axios.patch(`${baseURL}/api/posts/${id}`, post, {
       headers: { Authorization: `Bearer ${user}` },
     });
 
@@ -86,7 +92,7 @@ export const updatePostDetails = (id, post) => async (dispatch) => {
 export const deletePostDetails = (id) => async (dispatch) => {
   try {
     const user = JSON.parse(localStorage.getItem("profile")).token;
-    await Axios.delete(`/api/posts/${id}`, {
+    await Axios.delete(`${baseURL}/api/posts/${id}`, {
       headers: { Authorization: `Bearer ${user}` },
     });
 
@@ -99,9 +105,13 @@ export const deletePostDetails = (id) => async (dispatch) => {
 export const UpdateLike = (id, post) => async (dispatch) => {
   try {
     const user = JSON.parse(localStorage.getItem("profile")).token;
-    const { data } = await Axios.patch(`/api/posts/${id}/likePost`, post, {
-      headers: { Authorization: `Bearer ${user}` },
-    });
+    const { data } = await Axios.patch(
+      `${baseURL}/api/posts/${id}/likePost`,
+      post,
+      {
+        headers: { Authorization: `Bearer ${user}` },
+      }
+    );
 
     dispatch({ type: UPDATE_BLOG, payload: data });
   } catch (err) {
@@ -125,7 +135,7 @@ export const GetMyPosts = (id) => async (dispatch) => {
   dispatch({ type: MY_POST_REQUEST });
   try {
     const user = JSON.parse(localStorage.getItem("profile")).token;
-    const { data } = await Axios.patch(`/api/posts/GetMyPost/${id}`);
+    const { data } = await Axios.patch(`${baseURL}/api/posts/GetMyPost/${id}`);
 
     console.log(data);
 
